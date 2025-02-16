@@ -26,7 +26,7 @@ export const useEmployeeData = ({
       return response.data;
     } catch (error) {
       if (error.response?.status === 401) {
-        alert("session expired ! ")
+        alert("Session expired!");
         setTimeout(() => {
           setUser(null);
         }, 2000);
@@ -35,11 +35,13 @@ export const useEmployeeData = ({
     }
   };
 
-  const { data, error, isLoading, mutate } = useSWR(
+  const { data, error, mutate, isValidating } = useSWR(
     token ? url : null,
-    fetcher
+    fetcher,
+    { keepPreviousData: true }
   );
+
   const employees = data?.data?.rows?.data || [];
   const pagination = data?.data?.rows || {};
-  return { data: employees, pagination, error, isLoading, mutate };
+  return { data: employees, pagination, error,  isValidating, mutate };
 };

@@ -1,4 +1,5 @@
-import React, { useRef } from "react";
+// EmployeeTable.jsx
+import React from "react";
 import { useEmployeeData } from "./hooks/useEmployeeData";
 import { useReactTable, getCoreRowModel } from "@tanstack/react-table";
 import EmployeeTableView from "./EmployeeTableView";
@@ -14,13 +15,10 @@ const EmployeeTable = () => {
     sort_order: "asc",
     sort_by: "name",
   };
-  const { data, isLoading, error, pagination } = useEmployeeData(tableConfig);
-  const previousDataRef = useRef([]);
-  if (!isLoading && data && data.length > 0) {
-    previousDataRef.current = data;
-  }
-  // Use the previous data while loading new data
-  const tableData = isLoading ? previousDataRef.current : data || [];
+
+  const { data,  error, pagination, isValidating } = useEmployeeData(tableConfig);
+
+  const tableData = data || [];
 
   const columns = [
     { accessorKey: "employee_code", header: "Employee Id" },
@@ -36,10 +34,7 @@ const EmployeeTable = () => {
       id: "actions",
       header: "Actions",
       cell: ({ row }) => (
-        <Link
-          className="btn btn-primary"
-          to={`/employee/${row.original.id}`}
-        >
+        <Link className="btn btn-primary" to={`/employee/${row.original.id}`}>
           View Details
         </Link>
       ),
@@ -65,8 +60,8 @@ const EmployeeTable = () => {
 
   return (
     <div className="position-relative">
-      {/* Wrap the table view in a div that gets blurred when loading */}
-      <div className={isLoading ? "blur" : ""}>
+      {/* Blur the table view if revalidation is in progress */}
+      <div className={isValidating ? "blur" : ""}>
         <EmployeeTableView
           key={`table-${pageParam}`}
           table={table}
@@ -76,7 +71,7 @@ const EmployeeTable = () => {
         />
       </div>
       {/* Show a loading overlay if new data is being fetched */}
-      {isLoading && (
+      {isValidating && (
         <div
           className="position-absolute top-50 start-50 translate-middle"
           style={{ zIndex: 10 }}

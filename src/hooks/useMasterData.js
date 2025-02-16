@@ -21,7 +21,7 @@ const useMasterData = (key, endpoint) => {
 export const useDepartments = () => {
   const { data, error, isLoading } = useMasterData(
     "departments",
-    "https://core-skill-test.webc.in/employee-portal/api/v1/settings/departments"
+    `${import.meta.env.VITE_SERVER}/settings/departments`
   );
   return { departments: data, error, isLoading };
 };
@@ -29,7 +29,7 @@ export const useDepartments = () => {
 export const useDesignations = () => {
   const { data, error, isLoading } = useMasterData(
     "designations",
-    "https://core-skill-test.webc.in/employee-portal/api/v1/settings/designations"
+    `${import.meta.env.VITE_SERVER}/settings/designations`
   );
   return { designations: data, error, isLoading };
 };
@@ -37,7 +37,7 @@ export const useDesignations = () => {
 export const useEmploymentTypes = () => {
   const { data, error, isLoading } = useMasterData(
     "employmentTypes",
-    "https://core-skill-test.webc.in/employee-portal/api/v1/settings/employment-types"
+    `${import.meta.env.VITE_SERVER}/settings/employment-types`
   );
   return { employmentTypes: data, error, isLoading };
 };

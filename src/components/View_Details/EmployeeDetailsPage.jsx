@@ -1,10 +1,11 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import useEmployeeDetailsPageState from "./hooks/useEmployeeDetailsPageState";
 import EmployeeDetailsForm from "./Update/EmployeeDetailsForm";
 import ProfileImage from "./ProfileImage";
 import InfoSection from "./InfoSection";
 import SuccessToast from "./SuccessToast";
+
 const EmployeeDetailsPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -43,7 +44,14 @@ const EmployeeDetailsPage = () => {
     );
   }
 
-  const gender = formData.gender === 1 ? "male" : formData.gender === 2 ? "female" : formData.gender === 3 ? "others" : "N/A";
+  const gender =
+    formData.gender === 1
+      ? "male"
+      : formData.gender === 2
+      ? "female"
+      : formData.gender === 3
+      ? "others"
+      : "N/A";
 
   const personalInfo = [
     { label: "Employee Code", value: formData.employee_code },
@@ -87,6 +95,9 @@ const EmployeeDetailsPage = () => {
 
   return (
     <div className="container py-5">
+      <button className="btn btn-primary" onClick={() => navigate(-1)}>
+        Go Back
+      </button>
       <div className="row justify-content-center">
         <div className="col-lg-10">
           <div className="card shadow mb-4">
@@ -95,7 +106,9 @@ const EmployeeDetailsPage = () => {
                 <ProfileImage src={formData.profile_picture} />
                 <h2 className="h3 mb-1">{formData.name}</h2>
                 <p className="text-muted mb-3">
-                  <span className="badge bg-primary">{formData.designation?.title || "Designation"}</span>
+                  <span className="badge bg-primary">
+                    {formData.designation?.title || "Designation"}
+                  </span>
                 </p>
                 {!editMode && (
                   <button onClick={handleEdit} className="btn btn-primary px-4">
