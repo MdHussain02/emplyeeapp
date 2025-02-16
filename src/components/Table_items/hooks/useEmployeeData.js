@@ -3,6 +3,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { userPersistenceState } from "../../../recoil/userState";
 import useSWR from "swr";
 import axios from "axios";
+
 export const useEmployeeData = ({
   page = 1,
   length = 10,
@@ -25,11 +26,15 @@ export const useEmployeeData = ({
       return response.data;
     } catch (error) {
       if (error.response?.status === 401) {
-        setUser(null); 
+        alert("session expired ! ")
+        setTimeout(() => {
+          setUser(null);
+        }, 2000);
       }
       throw error;
     }
   };
+
   const { data, error, isLoading, mutate } = useSWR(
     token ? url : null,
     fetcher

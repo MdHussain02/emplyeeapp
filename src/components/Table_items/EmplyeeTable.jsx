@@ -2,10 +2,10 @@ import React, { useRef } from "react";
 import { useEmployeeData } from "./hooks/useEmployeeData";
 import { useReactTable, getCoreRowModel } from "@tanstack/react-table";
 import EmployeeTableView from "./EmployeeTableView";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
+
 const EmployeeTable = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
   const pageParam = parseInt(searchParams.get("page") || "1", 10);
 
   const tableConfig = {
@@ -36,12 +36,12 @@ const EmployeeTable = () => {
       id: "actions",
       header: "Actions",
       cell: ({ row }) => (
-        <button
+        <Link
           className="btn btn-primary"
-          onClick={() => navigate(`/employee/${row.original.id}`)}
+          to={`/employee/${row.original.id}`}
         >
           View Details
-        </button>
+        </Link>
       ),
     },
   ];

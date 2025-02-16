@@ -17,7 +17,10 @@ const fetcher = async (url, id, token, setUser) => {
     return response.data.data;
   } catch (error) {
     if (error.response?.status === 401) {
-      setUser(null); // Remove user from Recoil state
+      alert("Logging out ...")
+      setTimeout(() => {
+        setUser(null); 
+      }, 2000);
     }
     throw error;
   }
