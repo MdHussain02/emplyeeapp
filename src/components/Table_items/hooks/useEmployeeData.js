@@ -26,10 +26,7 @@ export const useEmployeeData = ({
       return response.data;
     } catch (error) {
       if (error.response?.status === 401) {
-        alert("Session expired!");
-        setTimeout(() => {
           setUser(null);
-        }, 2000);
       }
       throw error;
     }

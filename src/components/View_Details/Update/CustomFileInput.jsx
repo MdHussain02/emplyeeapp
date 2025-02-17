@@ -5,7 +5,7 @@ const CustomFileInput = ({ label, field, backendError, ...rest }) => {
   const { fieldState, fieldApi } = useField({ field });
   const { touched, error } = fieldState;
   const displayError = touched && (error || backendError);
-
+  // const {field , label , ba}
   return (
     <div className="mb-3">
       <label htmlFor={field} className="form-label fw-bold">{label}</label>
