@@ -11,11 +11,9 @@ const logoutFetcher = async (url, { arg }) => {
   );
   return response.data;
 };
-
 const useLogout = () => {
   const [user, setUser] = useRecoilState(userPersistenceState);
   const navigate = useNavigate();
-
   const { trigger, isMutating, error } = useSWRMutation(
     `${import.meta.env.VITE_SERVER}/settings/logout`,
     logoutFetcher

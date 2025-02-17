@@ -4,7 +4,6 @@ import useSWR from "swr";
 import axios from "axios";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { userPersistenceState } from "../../../recoil/userState";
-
 const fetcher = async (url, id, token, setUser) => {
   try {
     const response = await axios.get(url, {
@@ -22,7 +21,6 @@ const fetcher = async (url, id, token, setUser) => {
     throw error;
   }
 };
-
 const useEmployeeDetails = (id) => {
   const user = useRecoilValue(userPersistenceState);
   const setUser = useSetRecoilState(userPersistenceState);
