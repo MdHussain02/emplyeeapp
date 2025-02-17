@@ -37,7 +37,7 @@ const EmployeeDetailsForm = ({ initialValues, onSuccess, onCancel }) => {
                 type={type}
                 required
                 backendError={fieldErrors[field]}
-                validate={(values) => validateEmployeeForm(values)[field]}
+                validate={(value, values) => validateEmployeeForm(values)[field]}
                 className="bg-light rounded p-2"
               />
             </div>
@@ -51,7 +51,7 @@ const EmployeeDetailsForm = ({ initialValues, onSuccess, onCancel }) => {
     <Form
       initialValues={initialValues}
       onSubmit={handleSubmit}
-      focusOnInvalid 
+      
     >
       <div className="mb-4">
         <div className="card shadow-sm mb-4">
