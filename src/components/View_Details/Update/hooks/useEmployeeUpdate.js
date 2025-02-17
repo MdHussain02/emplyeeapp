@@ -1,8 +1,8 @@
-// useEmployeeUpdate.js
 import { useState, useCallback } from "react";
 import axios from "axios";
 import { useRecoilValue } from "recoil";
 import { userPersistenceState } from "../../../../recoil/userState";
+
 const allowedKeys = [
   "id",
   "name",
@@ -26,7 +26,6 @@ const allowedKeys = [
   "employee_code",
 ];
 
-// List of keys that should be numbers
 const numericKeys = [
   "designation_id",
   "department_id",
@@ -35,6 +34,7 @@ const numericKeys = [
   "salary",
   "id",
 ];
+
 const useEmployeeUpdate = () => {
   const user = useRecoilValue(userPersistenceState);
   const token = user?.token;
@@ -42,20 +42,19 @@ const useEmployeeUpdate = () => {
   const [fieldErrors, setFieldErrors] = useState({});
 
   const createPayload = useCallback((data) => {
-    const formDataToSend = new FormData();
+    const formData = new FormData();
     allowedKeys.forEach((key) => {
       if (data[key] !== undefined && data[key] !== null) {
         const value = numericKeys.includes(key)
-          ? Number(data[key]).toString()
+          ? String(Number(data[key]))
           : data[key];
-        formDataToSend.append(key, value);
+        formData.append(key, value);
       }
     });
-    // Append the file if provided
     if (data.profile_picture instanceof File) {
-      formDataToSend.append("profile_picture", data.profile_picture);
+      formData.append("profile_picture", data.profile_picture);
     }
-    return formDataToSend;
+    return formData;
   }, []);
 
   const updateEmployee = useCallback(
@@ -64,8 +63,6 @@ const useEmployeeUpdate = () => {
       setFieldErrors({});
       try {
         const payload = createPayload(data);
-        for (let [key, value] of payload.entries()) {
-        }
         const response = await axios.post(
           `${import.meta.env.VITE_SERVER}/employee/update`,
           payload,
@@ -78,9 +75,8 @@ const useEmployeeUpdate = () => {
         );
         if (response.data.success) {
           return { success: true, data: response.data };
-        } else {
-          throw new Error("Failed to update employee details.");
         }
+        throw new Error("Failed to update employee details.");
       } catch (err) {
         const backendErrors = err.response?.data?.errors || {};
         setFieldErrors(backendErrors);
@@ -99,3 +95,4 @@ const useEmployeeUpdate = () => {
 };
 
 export default useEmployeeUpdate;
+  

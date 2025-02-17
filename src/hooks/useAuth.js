@@ -10,7 +10,7 @@ const useAuth = () => {
   const navigate = useNavigate();
 
   const login = async (username, password) => {
-    setError(""); // 
+    setError(""); //
     try {
       const response = await axios.post(
         "https://core-skill-test.webc.in/employee-portal/api/v1/auth/login",
@@ -27,7 +27,8 @@ const useAuth = () => {
       }
     } catch (err) {
       setError(
-        err.response?.data?.message || "Login failed. Please check your credentials."
+        err.response?.data?.message ||
+          "Login failed. Please check your credentials."
       );
     }
   };

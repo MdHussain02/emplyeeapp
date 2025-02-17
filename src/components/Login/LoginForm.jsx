@@ -20,12 +20,11 @@ const LoginForm = ({ onSubmit, error }) => {
               {error}
             </div>
           )}
-
           <Form onSubmit={onSubmit}>
             {/* Email Field */}
             <div className="mb-3">
               <CustomField
-                name="username"
+                name="username" /*  */
                 label="Email"
                 placeholder="Enter your email"
                 validate={validateEmail}
@@ -41,7 +40,9 @@ const LoginForm = ({ onSubmit, error }) => {
                 label="Password"
                 fieldType="password"
                 placeholder="Enter your password"
-                validate={(value) => (!value ? "Password is required" : undefined)}
+                validate={(value) =>
+                  !value ? "Password is required" : undefined
+                }
                 validateOn="change"
                 required
               />

@@ -1,8 +1,15 @@
 import React from "react";
 import { useField } from "informed";
 
-const CustomInput = ({ label, field, type = "text", backendError, ...rest }) => {
-  const { fieldState, fieldApi } = useField({ field });
+const CustomInput = ({
+  label,
+  field,
+  type = "text",
+  validate, // This should be a function
+  backendError,
+  ...rest
+}) => {
+  const { fieldState, fieldApi } = useField({ field, validate });
   const { error, touched, value } = fieldState;
   const displayError = touched && (error || backendError);
   return (
@@ -19,7 +26,9 @@ const CustomInput = ({ label, field, type = "text", backendError, ...rest }) => 
         className="form-control"
         {...rest}
       />
-      {displayError && <div className="text-danger small">{error || backendError}</div>}
+      {displayError && (
+        <div className="text-danger small">{error || backendError}</div>
+      )}
     </div>
   );
 };

@@ -16,7 +16,8 @@ const EmployeeTable = () => {
     sort_by: "name",
   };
 
-  const { data,  error, pagination, isValidating } = useEmployeeData(tableConfig);
+  const { data, error, pagination, isValidating } =
+    useEmployeeData(tableConfig);
 
   const tableData = data || [];
 

@@ -23,13 +23,18 @@ const CustomRadioGroup = ({ label, field, options, backendError, ...rest }) => {
               className="form-check-input"
               {...rest}
             />
-            <label className="form-check-label" htmlFor={`${field}-${option.value}`}>
+            <label
+              className="form-check-label"
+              htmlFor={`${field}-${option.value}`}
+            >
               {option.label}
             </label>
           </div>
         ))}
       </div>
-      {displayError && <div className="text-danger small">{error || backendError}</div>}
+      {displayError && (
+        <div className="text-danger small">{error || backendError}</div>
+      )}
     </div>
   );
 };

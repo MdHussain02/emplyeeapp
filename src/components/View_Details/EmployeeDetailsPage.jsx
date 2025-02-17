@@ -35,6 +35,7 @@ const EmployeeDetailsPage = () => {
       </div>
     );
   }
+
   if (error) {
     return (
       <div className="min-vh-100 d-flex flex-column justify-content-center align-items-center">
@@ -80,49 +81,72 @@ const EmployeeDetailsPage = () => {
                   Edit Details
                 </button>
               </div>
-              <InfoSection title="Personal Information" items={getPersonalInfo(formData)} />
-              <InfoSection title="Employment Details" items={getEmploymentInfo(formData)} />
-              <InfoSection title="Banking Information" items={getBankingInfo(formData)} />
-              <InfoSection title="Emergency Contact" items={getEmergencyInfo(formData)} />
-              <InfoSection title="System Information" items={getSystemInfo(formData)} />
-            </div>
-          </div>
-        </div>
-      </div>
-      {showSuccessToast && <SuccessToast />}
-      {/* Bootstrap Modal */}
-      <div
-        className={`modal fade ${showModal ? "show d-block" : ""}`}
-        tabIndex="-1"
-        role="dialog"
-        style={{ background: "rgba(0, 0, 0, 0.5)" }}
-      >
-        <div className="modal-dialog modal-lg" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">Edit Employee Details</h5>
-              <button
-                type="button"
-                className="btn-close"
-                onClick={() => setShowModal(false)}
-              ></button>
-            </div>
-            <div className="modal-body">
-              <EmployeeDetailsForm
-                initialValues={formData}
-                onSuccess={() => {
-                  handleSuccess();
-                  setShowModal(false);
-                }}
-                onCancel={() => {
-                  handleCancel();
-                  setShowModal(false);
-                }}
+              <InfoSection
+                title="Personal Information"
+                items={getPersonalInfo(formData)}
+              />
+              <InfoSection
+                title="Employment Details"
+                items={getEmploymentInfo(formData)}
+              />
+              <InfoSection
+                title="Banking Information"
+                items={getBankingInfo(formData)}
+              />
+              <InfoSection
+                title="Emergency Contact"
+                items={getEmergencyInfo(formData)}
+              />
+              <InfoSection
+                title="System Information"
+                items={getSystemInfo(formData)}
               />
             </div>
           </div>
         </div>
       </div>
+      {showSuccessToast && <SuccessToast />}
+
+      {/* Conditionally render the modal so that the form unmounts when closed */}
+      {showModal && (
+        <div
+          className="modal fade show d-block"
+          tabIndex="-1"
+          role="dialog"
+          style={{ background: "rgba(0, 0, 0, 0.5)" }}
+        >
+          <div className="modal-dialog modal-lg" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Edit Employee Details</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => {
+                    handleCancel();
+                    setShowModal(false);
+                  }}
+                ></button>
+              </div>
+              <div className="modal-body">
+                {/* The key prop here ensures the form remounts with the latest initial values */}
+                <EmployeeDetailsForm
+                  key={JSON.stringify(formData)}
+                  initialValues={formData}
+                  onSuccess={() => {
+                    handleSuccess();
+                    setShowModal(false);
+                  }}
+                  onCancel={() => {
+                    handleCancel();
+                    setShowModal(false);
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

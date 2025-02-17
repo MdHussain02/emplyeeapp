@@ -27,8 +27,7 @@ const useLogout = () => {
         setUser(null);
         navigate("/");
       }
-    } catch (err) {
-    }
+    } catch (err) {}
   };
   return { logout, isLoggingOut: isMutating, logoutError: error };
 };

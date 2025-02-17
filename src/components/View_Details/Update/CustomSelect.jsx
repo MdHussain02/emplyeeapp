@@ -21,7 +21,9 @@ const CustomSelect = ({ label, field, children, backendError, ...rest }) => {
       >
         {children}
       </select>
-      {displayError && <div className="text-danger small">{error || backendError}</div>}
+      {displayError && (
+        <div className="text-danger small">{error || backendError}</div>
+      )}
     </div>
   );
 };

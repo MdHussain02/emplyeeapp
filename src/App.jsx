@@ -1,11 +1,16 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import Login from "./components/Login/Login";
 import Home from "./components/Home";
 import Protected from "./components/Auth/Protected";
 import EmployeeDetailsPage from "./components/View_Details/EmployeeDetailsPage";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
@@ -13,8 +18,22 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/home" element={<Protected><Home /></Protected>} />
-          <Route path="/employee/:id" element={<Protected><EmployeeDetailsPage /></Protected>} />
+          <Route
+            path="/home"
+            element={
+              <Protected>
+                <Home />
+              </Protected>
+            }
+          />
+          <Route
+            path="/employee/:id"
+            element={
+              <Protected>
+                <EmployeeDetailsPage />
+              </Protected>
+            }
+          />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Router>

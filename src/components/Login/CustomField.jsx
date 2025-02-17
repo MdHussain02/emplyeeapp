@@ -58,7 +58,11 @@ const CustomField = ({
           aria-describedby={error ? errorId : undefined}
         />
       )}
-      {error && <div id={errorId} className="invalid-feedback">{error}</div>}
+      {error && (
+        <div id={errorId} className="invalid-feedback">
+          {error}
+        </div>
+      )}
     </div>
   );
 };
