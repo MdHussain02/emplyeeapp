@@ -1,15 +1,14 @@
 import React from "react";
 import { useField } from "informed";
-
 const CustomInput = ({
   label,
   field,
   type = "text",
-  validate, // This should be a function
+  validate, // This should be 
   backendError,
   ...rest
 }) => {
-  const { fieldState, fieldApi } = useField({ field, validate });
+  const { fieldState, fieldApi , ref } = useField({ field, validate });
   const { error, touched, value } = fieldState;
   const displayError = touched && (error || backendError);
   return (
@@ -20,6 +19,7 @@ const CustomInput = ({
       <input
         type={type}
         id={field}
+        ref={ref}
         value={value || ""}
         onChange={(e) => fieldApi.setValue(e.target.value)}
         onBlur={() => fieldApi.setTouched(true)}

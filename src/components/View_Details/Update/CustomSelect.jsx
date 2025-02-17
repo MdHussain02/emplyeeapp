@@ -2,7 +2,7 @@ import React from "react";
 import { useField } from "informed";
 
 const CustomSelect = ({ label, field, children, backendError, ...rest }) => {
-  const { fieldState, fieldApi } = useField({ field });
+  const { fieldState, fieldApi , ref} = useField({ field });
   const { error, touched, value } = fieldState;
   const displayError = touched && (error || backendError);
 
@@ -12,6 +12,7 @@ const CustomSelect = ({ label, field, children, backendError, ...rest }) => {
         {label}
       </label>
       <select
+        ref={ref}
         id={field}
         value={value || ""}
         onChange={(e) => fieldApi.setValue(e.target.value)}
