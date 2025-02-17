@@ -32,7 +32,7 @@ export const useEmployeeData = ({
     }
   };
 
-  const { data, error, mutate, isValidating } = useSWR(
+  const { data, error, mutate, isLoading } = useSWR(
     token ? url : null,
     fetcher,
     { keepPreviousData: true }
@@ -40,5 +40,5 @@ export const useEmployeeData = ({
 
   const employees = data?.data?.rows?.data || [];
   const pagination = data?.data?.rows || {};
-  return { data: employees, pagination, error,  isValidating, mutate };
+  return { data: employees, pagination, error,  isLoading, mutate };
 };

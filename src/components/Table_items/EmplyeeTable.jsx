@@ -16,7 +16,7 @@ const EmployeeTable = () => {
     sort_by: "name",
   };
 
-  const { data, error, pagination, isValidating } =
+  const { data, error, pagination, isLoading } =
     useEmployeeData(tableConfig);
 
   const tableData = data || [];
@@ -62,7 +62,7 @@ const EmployeeTable = () => {
   return (
     <div className="position-relative">
       {/* Blur the table view if revalidation is in progress */}
-      <div className={isValidating ? "blur" : ""}>
+      <div className={isLoading ? "blur" : ""}>
         <EmployeeTableView
           key={`table-${pageParam}`}
           table={table}
@@ -72,7 +72,7 @@ const EmployeeTable = () => {
         />
       </div>
       {/* Show a loading overlay if new data is being fetched */}
-      {isValidating && (
+      {isLoading && (
         <div
           className="position-absolute top-50 start-50 translate-middle"
           style={{ zIndex: 10 }}

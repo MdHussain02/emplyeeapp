@@ -41,7 +41,7 @@ export const validateEmployeeForm = (values, masterData) => {
     errors.gender = "Invalid gender selection";
   }
 
-  const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
+  const today = new Date().toISOString().split("T")[0]; // Today's date in YYYY-MM-DD format
 
   if (values.date_of_birth) {
     if (!isValidDate(values.date_of_birth)) {
@@ -100,7 +100,6 @@ export const validateEmployeeForm = (values, masterData) => {
     }
   }
 
-  // Dropdown validation (ensure selected values exist in the master data)
   if (
     masterData?.employmentTypes &&
     !masterData.employmentTypes.some((type) => type.id === values.employment_type_id)
