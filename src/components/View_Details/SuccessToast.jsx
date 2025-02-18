@@ -1,27 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { CheckCircle, X } from "lucide-react";
 
-const SuccessToast = () => (
-  <div className="position-fixed bottom-0 end-0 p-3" style={{ zIndex: 1050 }}>
-    <div
-      className="toast show"
-      role="alert"
-      aria-live="assertive"
-      aria-atomic="true"
-    >
-      <div className="toast-header bg-success text-white">
-        <i className="bi bi-check-circle-fill me-2"></i>
+const SuccessToast = ({ message = "Record Updated Successfully" }) => {
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setVisible(false), 3000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (!visible) return null;
+
+  return (
+    <div className="position-fixed bottom-3 end-3 p-3" style={{ zIndex: 1050 }}>
+      <div className="toast show d-flex align-items-center bg-success text-white shadow rounded p-3">
+        <CheckCircle size={20} className="me-2" />
         <strong className="me-auto">Success</strong>
         <small>Just now</small>
         <button
           type="button"
-          className="btn-close btn-close-white"
-          data-bs-dismiss="toast"
+          className="btn-close btn-close-white ms-3"
+          onClick={() => setVisible(false)}
           aria-label="Close"
-        ></button>
+        >
+          <X size={16} />
+        </button>
       </div>
-      <div className="toast-body">Record Updated Successfully</div>
+      <div className="toast-body backdrop-blur-lg text-black">{message  }</div>
     </div>
-  </div>
-);
+  );
+};
 
 export default SuccessToast;

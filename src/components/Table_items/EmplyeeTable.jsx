@@ -4,6 +4,7 @@ import { useEmployeeData } from "./hooks/useEmployeeData";
 import { useReactTable, getCoreRowModel } from "@tanstack/react-table";
 import EmployeeTableView from "./EmployeeTableView";
 import { useSearchParams, Link } from "react-router-dom";
+import { Eye } from "lucide-react";
 
 const EmployeeTable = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -16,9 +17,7 @@ const EmployeeTable = () => {
     sort_by: "name",
   };
 
-  const { data, error, pagination, isLoading } =
-    useEmployeeData(tableConfig);
-
+  const { data, error, pagination, isLoading } = useEmployeeData(tableConfig);
   const tableData = data || [];
 
   const columns = [
@@ -35,8 +34,8 @@ const EmployeeTable = () => {
       id: "actions",
       header: "Actions",
       cell: ({ row }) => (
-        <Link className="btn btn-primary" to={`/employee/${row.original.id}`}>
-          View Details
+        <Link className="btn btn-outline-primary d-flex align-items-center gap-2" to={`/employee/${row.original.id}`}>
+          <Eye size={18} /> View
         </Link>
       ),
     },

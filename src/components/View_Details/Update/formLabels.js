@@ -33,4 +33,3 @@ export const personalFields = [
     { label: "Female", value: 2 },
     { label: "Other", value: 3 },
   ];
-  
