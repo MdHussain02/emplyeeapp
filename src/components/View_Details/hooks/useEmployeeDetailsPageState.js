@@ -1,20 +1,14 @@
-// useEmployeeDetailsPageState.js
-import { useState, useEffect, useCallback } from "react";
-import useEmployeeDetails from "./useEmployeeDetails"; 
+import { useState, useCallback } from "react";
+import useEmployeeDetails from "./useEmployeeDetails";
 const useEmployeeDetailsPageState = (id) => {
   const { details, error, isLoading, mutate } = useEmployeeDetails(id);
-
   const [editMode, setEditMode] = useState(false);
-  const [formData, setFormData] = useState(null);
+  const [formData, setFormData] = useState(details || null); 
   const [showSuccessToast, setShowSuccessToast] = useState(false);
-  useEffect(() => {
-    if (details && !editMode) {
-      setFormData(details);
-    }
-  }, [details, editMode]);
 
   const handleEdit = useCallback(() => setEditMode(true), []);
   const handleCancel = useCallback(() => setEditMode(false), []);
+  
   const handleSuccess = useCallback(
     (payload) => {
       setEditMode(false);
@@ -25,7 +19,9 @@ const useEmployeeDetailsPageState = (id) => {
     },
     [mutate]
   );
-
+  if (details && !editMode && !formData) {
+    setFormData(details);
+  }
   return {
     formData,
     editMode,
