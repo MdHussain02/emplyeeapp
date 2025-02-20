@@ -4,9 +4,8 @@ import { useRecoilValue } from "recoil";
 import { userPersistenceState } from "../recoil/userState";
 import { User, Mail, LogOut } from "lucide-react";
 
-
 const Home = () => {
-  const { logout } = useLogout();
+  const { logout, isLoggingOut } = useLogout();
   const user = useRecoilValue(userPersistenceState);
 
   return (
@@ -18,8 +17,21 @@ const Home = () => {
         <p className="card-text text-muted d-flex align-items-center gap-2">
           <Mail size={20} className="text-secondary" /> {user?.email}
         </p>
-        <button onClick={logout} className="btn w-30 ms-2 btn-danger mt-3 d-flex align-items-center gap-2">
-          <LogOut size={20} /> Logout
+        <button
+          onClick={logout}
+          className="btn w-40 ms-2 btn-danger mt-3 d-flex align-items-center gap-2 p-2"
+          disabled={isLoggingOut} // Disable button while logging out
+        >
+          {isLoggingOut ? (
+            <div className="d-flex">
+            <div className="spinner-border text-light" role="status">
+            </div>
+            </div>
+          ) : (
+            <>
+              <LogOut size={20} /> Logout
+            </>
+          )}
         </button>
         <div className="mt-4">
           <EmployeeTable />
