@@ -5,7 +5,7 @@ import useEmployeeDetails from "./hooks/useEmployeeDetails";
 import ProfileImage from "./ProfileImage";
 import InfoSection from "./InfoSection";
 import EmployeeEditModal from "./EmployeeEditModal";
-import SuccessToast from "./SuccessToast";
+import { ToastContainer } from 'react-toastify';
 import {
   getPersonalInfo,
   getEmploymentInfo,
@@ -70,6 +70,7 @@ const EmployeeDetailsPage = () => {
             <InfoSection title="Banking Information" items={getBankingInfo(details)} />
             <InfoSection title="Emergency Contact" items={getEmergencyInfo(details)} />
             <InfoSection title="System Information" items={getSystemInfo(details)} />
+            <ToastContainer />
           </div>
         </div>
       </div>

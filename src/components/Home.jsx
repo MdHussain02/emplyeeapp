@@ -4,6 +4,7 @@ import { useRecoilValue } from "recoil";
 import { userPersistenceState } from "../recoil/userState";
 import { User, Mail, LogOut } from "lucide-react";
 
+
 const Home = () => {
   const { logout } = useLogout();
   const user = useRecoilValue(userPersistenceState);

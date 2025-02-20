@@ -1,17 +1,11 @@
 import React from "react";
 import { Form } from "informed";
-import {
-  useDepartments,
-  useDesignations,
-  useEmploymentTypes,
-} from "../../../hooks/useMasterData";
 import CustomInput from "./CustomInput";
-import CustomSelect from "./CustomSelect";
 import CustomRadioGroup from "./CustomRadioGroup";
 import CustomFileInput from "./CustomFileInput";
 import useEmployeeFormLogic from "./hooks/useEmployeeFormLogic";
 import { validateEmployeeForm } from "./validation";
-
+import { toast } from "react-toastify"; // Import toast
 
 import {
   personalFields,
@@ -22,15 +16,20 @@ import {
   genderOptions,
 } from "./formLabels";
 
+// Import the new Select components
+import DepartmentSelect from "./DepartmentSelect";
+import DesignationSelect from "./DesignationSelect";
+import EmploymentTypeSelect from "./EmploymentTypeSelect";
 
 const EmployeeDetailsForm = ({ initialValues, onSuccess, onCancel }) => {
   const { handleSubmit, isSaving, fieldErrors } = useEmployeeFormLogic(
     initialValues,
-    onSuccess
+    () => {
+      toast.success("Employee data updated successfully!");
+      onSuccess();
+    }
   );
-  const { departments } = useDepartments();
-  const { designations } = useDesignations();
-  const { employmentTypes } = useEmploymentTypes();
+
 
   const renderFormSection = (title, fields) => (
     <div className="card shadow-sm mb-4">
@@ -58,6 +57,7 @@ const EmployeeDetailsForm = ({ initialValues, onSuccess, onCancel }) => {
       </div>
     </div>
   );
+
   return (
     <Form
       initialValues={initialValues}
@@ -104,44 +104,25 @@ const EmployeeDetailsForm = ({ initialValues, onSuccess, onCancel }) => {
           <div className="card-body">
             <div className="row g-3">
               <div className="col-md-6">
-                <CustomSelect
+                <DepartmentSelect
                   label="Department"
                   field="department_id"
                   className="bg-light rounded p-2"
-                >
-                  {departments?.map((opt) => (
-                    <option key={opt.id} value={opt.id}>
-                      {opt.name}
-                    </option>
-                  ))}
-                </CustomSelect>
+                />
               </div>
               <div className="col-md-6">
-                <CustomSelect
+                <DesignationSelect
                   label="Designation"
                   field="designation_id"
                   className="bg-light rounded p-2"
-                >
-                  {designations?.map((opt) => (
-                    <option key={opt.id} value={opt.id}>
-                      {opt.title}
-                    </option>
-                  ))}
-                </CustomSelect>
+                />
               </div>
               <div className="col-md-6">
-                <CustomSelect
+                <EmploymentTypeSelect
                   label="Employment Type"
                   field="employment_type_id"
-                  // backendError={fieldErrors["employment_type_id"]}
                   className="bg-light rounded p-2"
-                >
-                  {employmentTypes?.map((opt) => (
-                    <option key={opt.id} value={opt.id}>
-                      {opt.title}
-                    </option>
-                  ))}
-                </CustomSelect>
+                />
               </div>
               {employmentFields.map(({ label, field, type }) => (
                 <div key={field} className="col-md-6">
@@ -198,4 +179,5 @@ const EmployeeDetailsForm = ({ initialValues, onSuccess, onCancel }) => {
     </Form>
   );
 };
+
 export default EmployeeDetailsForm;
