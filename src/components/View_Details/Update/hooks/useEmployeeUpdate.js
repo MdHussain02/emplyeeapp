@@ -1,9 +1,9 @@
 import { useState } from "react";
 import useSWRMutation from "swr/mutation";
 import axios from "axios";
-import { useAtomValue } from "jotai";
-import { userState } from "../../../../jotai/userState";
-
+// import { useAtomValue } from "jotai";
+// import { userState } from "../../../../jotai/userState";
+import useToken from "../../../../hooks/useToken";
 const allowedKeys = [
   "id",
   "name",
@@ -39,8 +39,7 @@ const numericKeys = [
 const SERVER_URL = import.meta.env.VITE_SERVER;
 
 const useEmployeeUpdate = () => {
-  const user = useAtomValue(userState); // Use Jotai's persistent atom
-  const token = user?.token;
+  const {token}  = useToken();
   const [fieldErrors, setFieldErrors] = useState({});
 
   const mutationFetcher = async (url, { arg: data }) => {

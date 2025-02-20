@@ -41,7 +41,7 @@ export const validateEmployeeForm = (values, masterData) => {
     errors.gender = "Invalid gender selection";
   }
 
-  const today = new Date().toISOString().split("T")[0]; // Today's date in YYYY-MM-DD format
+  const today = new Date().toISOString().split("T")[0]; 
 
   if (values.date_of_birth) {
     if (!isValidDate(values.date_of_birth)) {

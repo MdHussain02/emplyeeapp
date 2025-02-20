@@ -34,7 +34,7 @@ const EmployeeTable = () => {
       id: "actions",
       header: "Actions",
       cell: ({ row }) => (
-        <Link className="btn btn-outline-primary d-flex align-items-center gap-2" to={`/employee/${row.original.id}`}>
+        <Link className="btn btn-outline-primary d-flex align-items-center gap-2" to={`/home/employee/${row.original.id}`}>
           <Eye size={18} /> View
         </Link>
       ),

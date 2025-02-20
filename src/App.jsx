@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { Provider } from "jotai"; 
+import { Provider } from "jotai"; // You can omit this if you want to keep the app simple
 import Login from "./components/Login/Login";
 import Home from "./components/Home";
 import Protected from "./components/Auth/Protected";
@@ -22,7 +22,7 @@ function App() {
             }
           />
           <Route
-            path="/employee/:id"
+            path="/home/employee/:id"
             element={
               <Protected>
                 <EmployeeDetailsPage />
