@@ -1,12 +1,12 @@
 import EmployeeTable from "./Table_items/EmplyeeTable";
 import useLogout from "../hooks/useLogout";
-import { useAtom } from "jotai"; // Import useAtom from Jotai
-import { userState } from "../jotai/userState"; // Import Jotai's user state atom (updated)
+import { useAtomValue } from "jotai"; 
+import { userState } from "../jotai/userState"; 
 import { User, Mail, LogOut } from "lucide-react";
 
 const Home = () => {
   const { logout, isLoggingOut } = useLogout();
-  const [user] = useAtom(userState); // Use Jotai's useAtom to access the user state (updated)
+  const user = useAtomValue(userState);
 
   return (
     <div className="container">
@@ -20,7 +20,7 @@ const Home = () => {
         <button
           onClick={logout}
           className="btn w-40 ms-2 btn-danger mt-3 d-flex align-items-center gap-2 p-2"
-          disabled={isLoggingOut} // Disable button while logging out
+          disabled={isLoggingOut}
         >
           {isLoggingOut ? (
             <div className="d-flex">

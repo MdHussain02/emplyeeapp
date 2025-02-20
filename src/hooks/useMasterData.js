@@ -1,6 +1,6 @@
 import useSWR from "swr";
 import axios from "axios";
-import { useAtom } from "jotai";
+import { useAtomValue } from "jotai";
 import { userState } from "../jotai/userState" 
 const fetcher = (url, token) =>
   axios
@@ -8,7 +8,7 @@ const fetcher = (url, token) =>
     .then((res) => res.data.data);
 
 const useMasterData = (key, endpoint) => {
-  const [user] = useAtom(userState); // Use Jotai's atomWithStorage
+  const user = useAtomValue(userState); 
   const token = user?.token;
 
   const { data, error, isLoading } = useSWR(

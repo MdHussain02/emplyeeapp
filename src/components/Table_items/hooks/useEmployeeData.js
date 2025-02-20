@@ -2,13 +2,11 @@ import { useAtom } from "jotai";
 import { userState } from "../../../jotai/userState"; 
 import useSWR from "swr"; 
 import axios from "axios";
-
-// Custom hook to fetch employee data
 export const useEmployeeData = ({
   page = 1,
   length = 10,
 } = {}) => {
-  const [user, setUser] = useAtom(userState); // Use Jotai's useAtom hook with persisted state
+  const [user, setUser] = useAtom(userState); 
   const token = user?.token;
   const queryString = `?length=${length}&page=${page}`;
   const url = `${import.meta.env.VITE_SERVER}/employee${queryString}`;
@@ -23,13 +21,12 @@ export const useEmployeeData = ({
       return response.data;
     } catch (error) {
       if (error.response?.status === 401) {
-        setUser(null); // Clear the user state when unauthorized
+        setUser(null); 
       }
       throw error;
     }
   };
 
-  // SWR hook to fetch employee data
   const { data, error, isLoading } = useSWR(
     token ? url : null, 
     fetcher, 

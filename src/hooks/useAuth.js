@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAtom } from "jotai";
+import { useSetAtom } from "jotai";
 import { userState } from "../jotai/userState"
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -7,7 +7,7 @@ import useSWRMutation from "swr/mutation";
 
 const useAuth = () => {
   const [error, setError] = useState("");
-  const [user, setUser] = useAtom(userState); 
+  const setUser = useSetAtom(userState); 
   const navigate = useNavigate();
 
   const { trigger, isMutating } = useSWRMutation(

@@ -27,8 +27,8 @@ const useLogout = () => {
     try {
       const response = await trigger(user.token);
       if (response.success) {
-        setUser(null); // Clear user state and remove from localStorage
-        navigate("/login"); // Redirect to login page
+        setUser(null); 
+        navigate("/login"); 
       }
     } catch (err) {
       console.error("Logout error: ", err);
