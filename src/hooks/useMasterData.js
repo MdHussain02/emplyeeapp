@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import axios from "axios";
-import { useRecoilValue } from "recoil";
-import { userPersistenceState } from "../recoil/userState";
+import { useAtom } from "jotai"; // Import useAtom from Jotai
+import { userPersistenceState } from "../jotai/userState"; // Import the Jotai user state atom
 
 const fetcher = (url, token) =>
   axios
@@ -9,12 +9,14 @@ const fetcher = (url, token) =>
     .then((res) => res.data.data);
 
 const useMasterData = (key, endpoint) => {
-  const user = useRecoilValue(userPersistenceState);
+  const [user] = useAtom(userPersistenceState); // Use Jotai's useAtom hook to get user state
   const token = user?.token;
+
   const { data, error, isLoading } = useSWR(
     token ? [key, token] : null,
     ([, token]) => fetcher(endpoint, token)
   );
+  
   return { data, error, isLoading };
 };
 

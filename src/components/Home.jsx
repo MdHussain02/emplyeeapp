@@ -1,12 +1,12 @@
 import EmployeeTable from "./Table_items/EmplyeeTable";
 import useLogout from "../hooks/useLogout";
-import { useRecoilValue } from "recoil";
-import { userPersistenceState } from "../recoil/userState";
+import { useAtom } from "jotai"; // Import useAtom from Jotai
+import { userPersistenceState } from "../jotai/userState"; // Import Jotai's user state atom
 import { User, Mail, LogOut } from "lucide-react";
 
 const Home = () => {
   const { logout, isLoggingOut } = useLogout();
-  const user = useRecoilValue(userPersistenceState);
+  const [user] = useAtom(userPersistenceState); // Use Jotai's useAtom to access the user state
 
   return (
     <div className="container">
@@ -24,8 +24,8 @@ const Home = () => {
         >
           {isLoggingOut ? (
             <div className="d-flex">
-            <div className="spinner-border text-light" role="status">
-            </div>
+              <div className="spinner-border text-light" role="status">
+              </div>
             </div>
           ) : (
             <>

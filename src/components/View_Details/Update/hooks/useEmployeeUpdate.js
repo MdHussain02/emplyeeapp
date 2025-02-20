@@ -1,8 +1,8 @@
 import { useState } from "react";
 import useSWRMutation from "swr/mutation";
 import axios from "axios";
-import { useRecoilValue } from "recoil";
-import { userPersistenceState } from "../../../../recoil/userState";
+import { useAtom } from "jotai"; // Use Jotai hooks
+import { userPersistenceState } from "../../../../jotai/userState"; // Assuming this atom exists in your Jotai store
 
 const allowedKeys = [
   "id",
@@ -39,7 +39,8 @@ const numericKeys = [
 const SERVER_URL = import.meta.env.VITE_SERVER;
 
 const useEmployeeUpdate = () => {
-  const user = useRecoilValue(userPersistenceState);
+  // Replace Recoil's useRecoilValue with Jotai's useAtom
+  const [user] = useAtom(userPersistenceState); // Assuming `userPersistenceState` is a Jotai atom
   const token = user?.token;
   const [fieldErrors, setFieldErrors] = useState({});
 
@@ -65,6 +66,7 @@ const useEmployeeUpdate = () => {
     });
     return response.data;
   };
+
   const { trigger, isMutating } = useSWRMutation(
     `${SERVER_URL}/employee/update`,
     mutationFetcher

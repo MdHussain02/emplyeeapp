@@ -1,9 +1,9 @@
-// src/hooks/useEmployeeDetails.js
 import { useMemo } from "react";
 import useSWR from "swr";
 import axios from "axios";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { userPersistenceState } from "../../../recoil/userState";
+import { useAtom } from "jotai";
+import { userPersistenceState } from "../../../jotai/userState"; // Import the Jotai atoms
+
 const fetcher = async (url, id, token, setUser) => {
   try {
     const response = await axios.get(url, {
@@ -16,16 +16,17 @@ const fetcher = async (url, id, token, setUser) => {
     return response.data.data;
   } catch (error) {
     if (error.response?.status === 401) {
-        setUser(null); 
+      setUser(null); // Clear the user state if unauthorized
     }
     throw error;
   }
 };
+
 const useEmployeeDetails = (id) => {
-  const user = useRecoilValue(userPersistenceState);
-  const setUser = useSetRecoilState(userPersistenceState);
+  const [user, setUser] = useAtom(userPersistenceState);
   const token = user?.token;
 
+  // SWR hook to fetch employee details data
   const { data, error, isLoading, mutate } = useSWR(
     token && id ? ["employeeDetails", id, token] : null,
     ([, id, token]) =>
@@ -36,7 +37,6 @@ const useEmployeeDetails = (id) => {
         setUser
       )
   );
-
   const details = useMemo(() => {
     if (!data) return null;
     return {

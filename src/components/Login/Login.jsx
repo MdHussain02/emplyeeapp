@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { userState } from "../../recoil/userState";
+import { useAtom } from "jotai"; // Import useAtom from Jotai
+import { userState } from "../../jotai/userState"; // Import the Jotai user state atom
 import useAuth from "../../hooks/useAuth";
 import { Form } from "informed";
 import CustomField from "./CustomField";
@@ -15,7 +15,7 @@ const validateEmail = (value) => {
 
 const Login = () => {
   const { login, error, isMutating } = useAuth();
-  const user = useRecoilValue(userState);
+  const [user] = useAtom(userState); // Use Jotai's useAtom to access the user state
 
   if (user) {
     return <Navigate to="/home" replace />;
