@@ -1,33 +1,36 @@
-import { useState, useCallback } from "react";
-import useEmployeeDetails from "./useEmployeeDetails";
+import { useState } from "react";
+import useEmployeeDetails from "./useEmployeeDetails"; 
+import useEmployeeUpdate from "./useEmployeeUpdate";
+
 const useEmployeeDetailsPageState = (id) => {
   const { details, error, isLoading, mutate } = useEmployeeDetails(id);
-  const [editMode, setEditMode] = useState(false);
-  const [formData, setFormData] = useState(details || null); 
+  const { updateEmployee} = useEmployeeUpdate(); 
   const [showSuccessToast, setShowSuccessToast] = useState(false);
 
-  const handleEdit = useCallback(() => setEditMode(true), []);
-  const handleCancel = useCallback(() => setEditMode(false), []);
-  
-  const handleSuccess = useCallback(
-    (payload) => {
-      setEditMode(false);
-      setShowSuccessToast(true);
-      setFormData(payload);
-      mutate();
-      setTimeout(() => setShowSuccessToast(false), 3000);
-    },
-    [mutate]
-  );
-  if (details && !editMode && !formData) {
+  const handleEdit = () => {
     setFormData(details);
-  }
+  };
+
+  const handleCancel = () => {
+    setFormData(details);
+  };
+
+  const handleSuccess = async (payload) => {
+    const result = await updateEmployee(payload);
+    if (result.success) {
+      setFormData(result.data);
+      setShowSuccessToast(true);
+      setTimeout(() => setShowSuccessToast(false), 3000);
+      mutate(); // Refetch the data after successful update
+    }
+  };
+
+  // Consolidated return for cleaner code
   return {
     formData,
-    editMode,
-    showSuccessToast,
-    error,
     isLoading,
+    error,
+    showSuccessToast,
     handleEdit,
     handleCancel,
     handleSuccess,

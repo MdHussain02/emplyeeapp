@@ -65,14 +65,11 @@ const useEmployeeUpdate = () => {
     });
     return response.data;
   };
-
-  // Use SWR's mutation hook; the key is the update endpoint URL.
   const { trigger, isMutating } = useSWRMutation(
     `${SERVER_URL}/employee/update`,
     mutationFetcher
   );
 
-  // The updateEmployee function triggers the mutation and handles errors.
   const updateEmployee = async (data) => {
     setFieldErrors({});
     try {
