@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft, Loader2, AlertCircle } from "lucide-react";
 import useEmployeeDetails from "./hooks/useEmployeeDetails";
 import ProfileImage from "./ProfileImage";
 import InfoSection from "./InfoSection";
-import SuccessToast from "./SuccessToast";
 import EmployeeEditModal from "./EmployeeEditModal";
+import SuccessToast from "./SuccessToast";
 import {
   getPersonalInfo,
   getEmploymentInfo,
@@ -18,7 +18,6 @@ const EmployeeDetailsPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { details, error, isLoading, mutate } = useEmployeeDetails(id);
-  const [showSuccessToast, setShowSuccessToast] = useState(false);
 
   if (isLoading) {
     return (
@@ -44,11 +43,8 @@ const EmployeeDetailsPage = () => {
       </div>
     );
   }
-
-  const handleSuccess = (updatedData) => {
-    setShowSuccessToast(true);
+  const handleSuccess = () => {
     mutate(); 
-    setTimeout(() => setShowSuccessToast(false), 3000);
   };
 
   return (
@@ -67,7 +63,7 @@ const EmployeeDetailsPage = () => {
                   {details.designation?.title || "Designation"}
                 </span>
               </p>
-              <EmployeeEditModal initialValues={details} onSuccess={handleSuccess} />
+              <EmployeeEditModal initialValues={details} onSuccess={handleSuccess}  />
             </div>
             <InfoSection title="Personal Information" items={getPersonalInfo(details)} />
             <InfoSection title="Employment Details" items={getEmploymentInfo(details)} />
@@ -77,7 +73,8 @@ const EmployeeDetailsPage = () => {
           </div>
         </div>
       </div>
-      {showSuccessToast && <SuccessToast />}
+        
+      <SuccessToast/>
     </div>
   );
 };

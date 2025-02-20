@@ -11,8 +11,6 @@ import CustomRadioGroup from "./CustomRadioGroup";
 import CustomFileInput from "./CustomFileInput";
 import useEmployeeFormLogic from "./hooks/useEmployeeFormLogic";
 import { validateEmployeeForm } from "./validation";
-
-
 import {
   personalFields,
   addressFields,
@@ -21,7 +19,6 @@ import {
   emergencyFields,
   genderOptions,
 } from "./formLabels";
-
 
 const EmployeeDetailsForm = ({ initialValues, onSuccess, onCancel }) => {
   const { handleSubmit, isSaving, fieldErrors } = useEmployeeFormLogic(
@@ -47,7 +44,7 @@ const EmployeeDetailsForm = ({ initialValues, onSuccess, onCancel }) => {
                 type={type}
                 required
                 backendError={fieldErrors[field]}
-                validate={(value, values) =>
+                validate={(values) =>
                   validateEmployeeForm(values)[field]
                 }
                 className="bg-light rounded p-2"
@@ -198,5 +195,4 @@ const EmployeeDetailsForm = ({ initialValues, onSuccess, onCancel }) => {
     </Form>
   );
 };
-
 export default EmployeeDetailsForm;

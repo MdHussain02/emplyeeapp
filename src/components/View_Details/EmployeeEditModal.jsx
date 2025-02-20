@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { Pencil } from "lucide-react";
 import EmployeeDetailsForm from "./Update/EmployeeDetailsForm";
+import { mutate } from "swr";
 
 const EmployeeEditModal = ({ initialValues, onSuccess }) => {
   const [show, setShow] = useState(false);
@@ -10,6 +11,7 @@ const EmployeeEditModal = ({ initialValues, onSuccess }) => {
   const handleClose = () => setShow(false);
 
   const handleFormSuccess = (updatedData) => {
+    mutate();
     onSuccess(updatedData);
     handleClose();
   };

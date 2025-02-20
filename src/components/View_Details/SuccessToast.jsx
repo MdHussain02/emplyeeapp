@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CheckCircle, X } from "lucide-react";
 
 const SuccessToast = ({ message = "Record Updated Successfully" }) => {
@@ -8,9 +8,7 @@ const SuccessToast = ({ message = "Record Updated Successfully" }) => {
     const timer = setTimeout(() => setVisible(false), 3000);
     return () => clearTimeout(timer);
   }, []);
-
   if (!visible) return null;
-
   return (
     <div className="position-fixed bottom-3 end-3 p-3" style={{ zIndex: 1050 }}>
       <div className="toast show d-flex align-items-center bg-success text-white shadow rounded p-3">
@@ -26,7 +24,7 @@ const SuccessToast = ({ message = "Record Updated Successfully" }) => {
           <X size={16} />
         </button>
       </div>
-      <div className="toast-body backdrop-blur-lg text-black">{message  }</div>
+      <div className="toast-body backdrop-blur-lg text-black">{message}</div>
     </div>
   );
 };
