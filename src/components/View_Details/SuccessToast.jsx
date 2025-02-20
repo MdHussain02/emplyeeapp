@@ -1,32 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { CheckCircle, X } from "lucide-react";
+import React, { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const SuccessToast = ({ message = "Record Updated Successfully" }) => {
-  const [visible, setVisible] = useState(true);
+  const [toastShown, setToastShown] = useState(false);
 
-  useEffect(() => {
-    const timer = setTimeout(() => setVisible(false), 3000);
-    return () => clearTimeout(timer);
-  }, []);
-  if (!visible) return null;
-  return (
-    <div className="position-fixed bottom-3 end-3 p-3" style={{ zIndex: 1050 }}>
-      <div className="toast show d-flex align-items-center bg-success text-white shadow rounded p-3">
-        <CheckCircle size={20} className="me-2" />
-        <strong className="me-auto">Success</strong>
-        <small>Just now</small>
-        <button
-          type="button"
-          className="btn-close btn-close-white ms-3"
-          onClick={() => setVisible(false)}
-          aria-label="Close"
-        >
-          <X size={16} />
-        </button>
-      </div>
-      <div className="toast-body backdrop-blur-lg text-black">{message}</div>
-    </div>
-  );
+  if (!toastShown) {
+    toast.success(message, {
+      position: "bottom-right",
+      autoClose: 3000,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+    setToastShown(true);
+  }
+
+  return <ToastContainer />;
 };
 
 export default SuccessToast;
+  

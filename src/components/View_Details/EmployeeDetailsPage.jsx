@@ -73,8 +73,6 @@ const EmployeeDetailsPage = () => {
           </div>
         </div>
       </div>
-        
-      <SuccessToast/>
     </div>
   );
 };
