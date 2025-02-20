@@ -1,4 +1,5 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
+import useSWRMutation from "swr/mutation";
 import axios from "axios";
 import { useRecoilValue } from "recoil";
 import { userPersistenceState } from "../../../../recoil/userState";
@@ -35,13 +36,15 @@ const numericKeys = [
   "id",
 ];
 
+const SERVER_URL = import.meta.env.VITE_SERVER;
+
 const useEmployeeUpdate = () => {
   const user = useRecoilValue(userPersistenceState);
   const token = user?.token;
-  const [isSaving, setIsSaving] = useState(false);
   const [fieldErrors, setFieldErrors] = useState({});
 
-  const createPayload = useCallback((data) => {
+  // Define the mutation function inline
+  const mutationFetcher = async (url, { arg: data }) => {
     const formData = new FormData();
     allowedKeys.forEach((key) => {
       if (data[key] !== undefined && data[key] !== null) {
@@ -54,45 +57,38 @@ const useEmployeeUpdate = () => {
     if (data.profile_picture instanceof File) {
       formData.append("profile_picture", data.profile_picture);
     }
-    return formData;
-  }, []);
+    const response = await axios.post(`${url}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  };
 
-  const updateEmployee = useCallback(
-    async (data) => {
-      setIsSaving(true);
-      setFieldErrors({});
-      try {
-        const payload = createPayload(data);
-        const response = await axios.post(
-          `${import.meta.env.VITE_SERVER}/employee/update`,
-          payload,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        if (response.data.success) {
-          return { success: true, data: response.data };
-        }
-        throw new Error("Failed to update employee details.");
-      } catch (err) {
-        const backendErrors = err.response?.data?.errors || {};
-        setFieldErrors(backendErrors);
-        const backendMessage =
-          err.response?.data?.message || "Error updating employee details.";
-        console.error("Update employee error:", err.response?.data || err.message);
-        return { success: false, error: backendMessage, fieldErrors: backendErrors };
-      } finally {
-        setIsSaving(false);
-      }
-    },
-    [createPayload, token]
+  // Use SWR's mutation hook; the key is the update endpoint URL.
+  const { trigger, isMutating } = useSWRMutation(
+    `${SERVER_URL}/employee/update`,
+    mutationFetcher
   );
 
-  return { updateEmployee, isSaving, fieldErrors };
+  // The updateEmployee function triggers the mutation and handles errors.
+  const updateEmployee = async (data) => {
+    setFieldErrors({});
+    try {
+      const result = await trigger(data, { throwOnError: true });
+      return { success: true, data: result };
+    } catch (err) {
+      const backendErrors = err.response?.data?.errors || {};
+      setFieldErrors(backendErrors);
+      const backendMessage =
+        err.response?.data?.message || "Error updating employee details.";
+      console.error("Update employee error:", err.response?.data || err.message);
+      return { success: false, error: backendMessage, fieldErrors: backendErrors };
+    }
+  };
+
+  return { updateEmployee, isSaving: isMutating, fieldErrors };
 };
 
 export default useEmployeeUpdate;
-  

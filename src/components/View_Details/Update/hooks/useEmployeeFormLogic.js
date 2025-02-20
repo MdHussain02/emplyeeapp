@@ -1,20 +1,16 @@
-import { useCallback } from "react";
 import useEmployeeUpdate from "./useEmployeeUpdate";
 
 const useEmployeeFormLogic = (initialValues, onSuccess) => {
   const { updateEmployee, isSaving, fieldErrors } = useEmployeeUpdate();
 
-  const handleSubmit = useCallback(
-    async (values) => {
-      const payload = { ...values.values, id: initialValues.id };
-      const result = await updateEmployee(payload);
-      if (result.success && onSuccess) {
-        onSuccess(payload);
-      }
-      return result;
-    },
-    [initialValues.id, onSuccess, updateEmployee]
-  );
+  const handleSubmit = async (values) => {
+    const payload = { ...values.values, id: initialValues.id };
+    const result = await updateEmployee(payload);
+    if (result.success && onSuccess) {
+      onSuccess(payload);
+    }
+    return result;
+  };
 
   return { handleSubmit, isSaving, fieldErrors };
 };
