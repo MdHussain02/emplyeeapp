@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
-import { userPersistenceState } from "../../../jotai/userState"; // Import the Jotai atoms
-import useSWR from "swr"; // Import the default SWR hook
+import { userState } from "../../../jotai/userState"; 
+import useSWR from "swr"; 
 import axios from "axios";
 
 // Custom hook to fetch employee data
@@ -8,11 +8,10 @@ export const useEmployeeData = ({
   page = 1,
   length = 10,
 } = {}) => {
-  const [user, setUser] = useAtom(userPersistenceState); // Use Jotai's useAtom hook
+  const [user, setUser] = useAtom(userState); // Use Jotai's useAtom hook with persisted state
   const token = user?.token;
   const queryString = `?length=${length}&page=${page}`;
   const url = `${import.meta.env.VITE_SERVER}/employee${queryString}`;
-
 
   const fetcher = async (url) => {
     try {
@@ -30,14 +29,14 @@ export const useEmployeeData = ({
     }
   };
 
-  // SWR hook to fetch the employee data
+  // SWR hook to fetch employee data
   const { data, error, isLoading } = useSWR(
     token ? url : null, 
     fetcher, 
     {
       revalidateOnMount: true, 
       keepPreviousData: true, 
-      revalidateOnFocus : false,
+      revalidateOnFocus: false,
     }
   );
 

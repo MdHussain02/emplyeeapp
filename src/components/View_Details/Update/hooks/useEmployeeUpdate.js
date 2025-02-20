@@ -1,8 +1,11 @@
 import { useState } from "react";
 import useSWRMutation from "swr/mutation";
 import axios from "axios";
-import { useAtom } from "jotai"; // Use Jotai hooks
-import { userPersistenceState } from "../../../../jotai/userState"; // Assuming this atom exists in your Jotai store
+import { useAtom } from "jotai";
+import { atomWithStorage } from "jotai/utils"; // Use Jotai's atomWithStorage for persistent state
+
+// Persistent user state
+export const userState = atomWithStorage("user", null);
 
 const allowedKeys = [
   "id",
@@ -39,12 +42,10 @@ const numericKeys = [
 const SERVER_URL = import.meta.env.VITE_SERVER;
 
 const useEmployeeUpdate = () => {
-  // Replace Recoil's useRecoilValue with Jotai's useAtom
-  const [user] = useAtom(userPersistenceState); // Assuming `userPersistenceState` is a Jotai atom
+  const [user] = useAtom(userState); // Use Jotai's persistent atom
   const token = user?.token;
   const [fieldErrors, setFieldErrors] = useState({});
 
-  // Define the mutation function inline
   const mutationFetcher = async (url, { arg: data }) => {
     const formData = new FormData();
     allowedKeys.forEach((key) => {
@@ -55,15 +56,18 @@ const useEmployeeUpdate = () => {
         formData.append(key, value);
       }
     });
+
     if (data.profile_picture instanceof File) {
       formData.append("profile_picture", data.profile_picture);
     }
-    const response = await axios.post(`${url}`, formData, {
+
+    const response = await axios.post(url, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       },
     });
+
     return response.data;
   };
 
@@ -80,10 +84,12 @@ const useEmployeeUpdate = () => {
     } catch (err) {
       const backendErrors = err.response?.data?.errors || {};
       setFieldErrors(backendErrors);
-      const backendMessage =
-        err.response?.data?.message || "Error updating employee details.";
       console.error("Update employee error:", err.response?.data || err.message);
-      return { success: false, error: backendMessage, fieldErrors: backendErrors };
+      return {
+        success: false,
+        error: err.response?.data?.message || "Error updating employee details.",
+        fieldErrors: backendErrors,
+      };
     }
   };
 

@@ -2,8 +2,7 @@ import { useMemo } from "react";
 import useSWR from "swr";
 import axios from "axios";
 import { useAtom } from "jotai";
-import { userPersistenceState } from "../../../jotai/userState"; // Import the Jotai atoms
-
+import { userState } from "../../../jotai/userState"
 const fetcher = async (url, id, token, setUser) => {
   try {
     const response = await axios.get(url, {
@@ -16,14 +15,14 @@ const fetcher = async (url, id, token, setUser) => {
     return response.data.data;
   } catch (error) {
     if (error.response?.status === 401) {
-      setUser(null); // Clear the user state if unauthorized
+      setUser(null); // Clear user state if unauthorized
     }
     throw error;
   }
 };
 
 const useEmployeeDetails = (id) => {
-  const [user, setUser] = useAtom(userPersistenceState);
+  const [user, setUser] = useAtom(userState);
   const token = user?.token;
 
   // SWR hook to fetch employee details data
@@ -37,6 +36,7 @@ const useEmployeeDetails = (id) => {
         setUser
       )
   );
+
   const details = useMemo(() => {
     if (!data) return null;
     return {

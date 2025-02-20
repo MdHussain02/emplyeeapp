@@ -1,13 +1,15 @@
 import { useState } from "react";
-import { useAtom } from "jotai"; // Use Jotai's useAtom instead
-import { userPersistenceState } from "../jotai/userState"; // Import the Jotai atoms
+import { useAtom } from "jotai";
+import { userState } from "../jotai/userState"
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import useSWRMutation from "swr/mutation";
 
+
+
 const useAuth = () => {
   const [error, setError] = useState("");
-  const [user, setUser] = useAtom(userPersistenceState); // Use Jotai's useAtom hook to get and set the user
+  const [user, setUser] = useAtom(userState); 
   const navigate = useNavigate();
 
   const { trigger, isMutating } = useSWRMutation(
@@ -23,7 +25,7 @@ const useAuth = () => {
 
       const userData = response?.data?.data;
       if (userData?.token) {
-        setUser(userData); // Update the Jotai user state
+        setUser(userData); // Update user state (automatically syncs with localStorage)
         navigate("/home");
       } else {
         setError("Authentication failed. Please try again.");
@@ -37,7 +39,7 @@ const useAuth = () => {
   };
 
   const logout = () => {
-    setUser(null); // Clear user state
+    setUser(null); // Clear user state (also removes from localStorage)
     navigate("/");
   };
 

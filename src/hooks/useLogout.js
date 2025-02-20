@@ -1,8 +1,8 @@
-import { useAtom } from "jotai"; // Use Jotai's useAtom hook
-import { userPersistenceState } from "../jotai/userState"; // Import the Jotai user state
+import { useAtom } from "jotai";
 import { useNavigate } from "react-router-dom";
 import useSWRMutation from "swr/mutation";
 import axios from "axios";
+import { userState } from "../jotai/userState"
 
 const logoutFetcher = async (url, { arg }) => {
   const response = await axios.post(
@@ -14,7 +14,7 @@ const logoutFetcher = async (url, { arg }) => {
 };
 
 const useLogout = () => {
-  const [user, setUser] = useAtom(userPersistenceState); // Use Jotai's atom for state
+  const [user, setUser] = useAtom(userState); 
   const navigate = useNavigate();
   const { trigger, isMutating, error } = useSWRMutation(
     `${import.meta.env.VITE_SERVER}/settings/logout`,
@@ -27,11 +27,11 @@ const useLogout = () => {
     try {
       const response = await trigger(user.token);
       if (response.success) {
-        setUser(null); // Clear the user state in Jotai
-        navigate("/");
+        setUser(null); // Clear user state and remove from localStorage
+        navigate("/login"); // Redirect to login page
       }
     } catch (err) {
-      console.error(err);
+      console.error("Logout error: ", err);
     }
   };
 

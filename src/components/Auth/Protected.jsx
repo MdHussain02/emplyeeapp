@@ -4,7 +4,9 @@ import { userState } from "../../jotai/userState"; // Import the Jotai user stat
 
 const Protected = ({ children }) => {
   const [user] = useAtom(userState); // Use Jotai's useAtom to access the user state
-  return user ? children : <Navigate to="/" replace />;
+
+  // Redirect to login page if no user is found
+  return user ? children : <Navigate to="/login" replace />;
 };
 
 export default Protected;
