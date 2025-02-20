@@ -1,11 +1,10 @@
 import { useState } from "react";
 import useSWRMutation from "swr/mutation";
 import axios from "axios";
-import { useAtom } from "jotai";
-import { atomWithStorage } from "jotai/utils"; // Use Jotai's atomWithStorage for persistent state
+import { useAtomValue } from "jotai";
+import { userState } from "../../../../jotai/userState";
 
-// Persistent user state
-export const userState = atomWithStorage("user", null);
+
 
 const allowedKeys = [
   "id",
@@ -42,7 +41,7 @@ const numericKeys = [
 const SERVER_URL = import.meta.env.VITE_SERVER;
 
 const useEmployeeUpdate = () => {
-  const [user] = useAtom(userState); // Use Jotai's persistent atom
+  const user = useAtomValue(userState); // Use Jotai's persistent atom
   const token = user?.token;
   const [fieldErrors, setFieldErrors] = useState({});
 
