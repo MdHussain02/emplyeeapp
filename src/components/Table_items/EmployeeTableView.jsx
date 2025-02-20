@@ -1,7 +1,6 @@
 import React from "react";
 import EmployeeTableDisplay from "./EmployeeTableDisplay";
 import TablePagination from "./TablePagination";
-
 const EmployeeTableView = ({
   table,
   pagination,

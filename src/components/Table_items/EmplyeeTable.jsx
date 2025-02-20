@@ -60,7 +60,6 @@ const EmployeeTable = () => {
 
   return (
     <div className="position-relative">
-      {/* Blur the table view if revalidation is in progress */}
       <div className={isLoading ? "blur" : ""}>
         <EmployeeTableView
           key={`table-${pageParam}`}

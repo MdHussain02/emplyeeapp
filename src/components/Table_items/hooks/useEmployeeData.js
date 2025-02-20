@@ -1,7 +1,6 @@
-// src/hooks/useEmployeeData.js
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { userPersistenceState } from "../../../recoil/userState";
-import useSWR from "swr";
+import useSWRImmutable from "swr/immutable";
 import axios from "axios";
 
 export const useEmployeeData = ({
@@ -26,19 +25,21 @@ export const useEmployeeData = ({
       return response.data;
     } catch (error) {
       if (error.response?.status === 401) {
-          setUser(null);
+        setUser(null);
       }
       throw error;
     }
   };
 
-  const { data, error, mutate, isLoading } = useSWR(
-    token ? url : null,
-    fetcher,
-    { keepPreviousData: true }
+  const { data, error, isLoading } = useSWRImmutable(
+    token ? url : null, 
+    fetcher, 
+    {
+      keepPreviousData: true, 
+    }
   );
 
   const employees = data?.data?.rows?.data || [];
   const pagination = data?.data?.rows || {};
-  return { data: employees, pagination, error,  isLoading, mutate };
+  return { data: employees, pagination, error, isLoading };
 };
