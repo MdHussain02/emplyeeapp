@@ -4,8 +4,6 @@ import axios from "axios";
 import { useAtomValue } from "jotai";
 import { userState } from "../../../../jotai/userState";
 
-
-
 const allowedKeys = [
   "id",
   "name",
@@ -83,10 +81,14 @@ const useEmployeeUpdate = () => {
     } catch (err) {
       const backendErrors = err.response?.data?.errors || {};
       setFieldErrors(backendErrors);
-      console.error("Update employee error:", err.response?.data || err.message);
+      console.error(
+        "Update employee error:",
+        err.response?.data || err.message
+      );
       return {
         success: false,
-        error: err.response?.data?.message || "Error updating employee details.",
+        error:
+          err.response?.data?.message || "Error updating employee details.",
         fieldErrors: backendErrors,
       };
     }
