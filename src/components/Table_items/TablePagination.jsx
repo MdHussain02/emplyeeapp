@@ -1,6 +1,5 @@
 import React from "react";
 import { ChevronsLeft, ChevronLeft, ChevronRight, ChevronsRight } from "lucide-react";
-
 const TablePagination = ({ currentPage, totalPages, onPageChange }) => {
   return (
     <nav aria-label="Page navigation">

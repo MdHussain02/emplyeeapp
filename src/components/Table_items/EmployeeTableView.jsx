@@ -1,12 +1,13 @@
 import React from "react";
 import EmployeeTableDisplay from "./EmployeeTableDisplay";
 import TablePagination from "./TablePagination";
+import { useSearchParams } from "react-router-dom";
 const EmployeeTableView = ({
   table,
   pagination,
-  searchParams,
-  setSearchParams,
 }) => {
+
+  const [searchParams, setSearchParams] = useSearchParams();
   const totalRows =
     pagination?.total || table.getPrePaginationRowModel().rows.length;
   const pageSize = pagination?.per_page || table.getState().pagination.pageSize;

@@ -65,8 +65,6 @@ const EmployeeTable = () => {
           key={`table-${pageParam}`}
           table={table}
           pagination={pagination}
-          searchParams={searchParams}
-          setSearchParams={setSearchParams}
         />
       </div>
       {/* Show a loading overlay if new data is being fetched */}
