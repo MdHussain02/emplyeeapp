@@ -73,7 +73,6 @@ const EmployeeDetailsForm = ({ initialValues, onSuccess, onCancel }) => {
             <CustomFileInput
               label="Upload Photo"
               field="profile_picture"
-              className="bg-light rounded p-3"
               validate={(value, values) =>
                 validateEmployeeForm(values).profile_picture
               }

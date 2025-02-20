@@ -27,7 +27,7 @@ const CustomFileInput = ({ label, field, validate, backendError, ...rest }) => {
           type="file"
           id={field}
           name={field}
-          className="d-none"
+          className="text text-primary"
           onChange={(e) => {
             const file = e.target.files[0];
             fieldApi.setValue(file);
